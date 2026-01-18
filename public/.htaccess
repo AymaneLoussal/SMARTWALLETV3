@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /smartWalletMvc/public/
+
+    # Don't rewrite if request is for a real file
+    RewriteCond %{REQUEST_FILENAME} !-f
+    # Don't rewrite if request is for a real directory
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Rewrite all requests to index.php with url parameter
+    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+</IfModule>
