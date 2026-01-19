@@ -1,25 +1,13 @@
 <?php
 
 namespace core;
-/**
- * Database Singleton Class
- *
- * Manages PDO database connection using singleton pattern
- * Ensures only one database connection throughout application
- */
+
 class Database
 {
     private static $instance = null;
     private $pdo;
 
-    /**
-     * Private constructor - use getInstance() instead
-     *
-     * @param string $dsn - Database connection string
-     * @param string $username - Database username
-     * @param string $password - Database password
-     * @throws Exception
-     */
+   
     private function __construct($dsn, $username, $password)
     {
         try {
@@ -40,15 +28,7 @@ class Database
         }
     }
 
-    /**
-     * Get singleton instance of Database
-     * Initializes connection if not already created
-     *
-     * @param string $dsn - Optional: Database connection string
-     * @param string $username - Optional: Database username
-     * @param string $password - Optional: Database password
-     * @return Database - Singleton instance
-     */
+    
     public static function getInstance($dsn = null, $username = null, $password = null)
     {
         if (self::$instance === null) {
@@ -62,11 +42,7 @@ class Database
         return self::$instance;
     }
 
-    /**
-     * Get PDO connection object
-     *
-     * @return PDO
-     */
+   
     public function getConnection()
     {
         return $this->pdo;

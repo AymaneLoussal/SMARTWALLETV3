@@ -1,32 +1,17 @@
 <?php
 
 namespace core;
-/**
- * Controller Base Class
- *
- * Provides common functionality for all controllers
- */
+
 class Controller
 {
 
-    /**
-     * Render a view with data
-     * Alias for view() method - supports both naming conventions
-     *
-     * @param string $view - View file path
-     * @param array $data - Data to pass to view
-     */
+   
     protected function render($view, $data = [])
     {
         $this->view($view, $data);
     }
 
-    /**
-     * Display a view with data
-     *
-     * @param string $view - View file path (without .php extension)
-     * @param array $data - Data to pass to view
-     */
+    
     protected function view($view, $data = [])
     {
         extract($data);
@@ -40,12 +25,7 @@ class Controller
         }
     }
 
-    /**
-     * Load and instantiate a model
-     *
-     * @param string $model - Model class name
-     * @return object - Instantiated model
-     */
+    
     protected function model($model)
     {
         $modelPath = "../app/models/{$model}.php";
@@ -58,32 +38,20 @@ class Controller
         }
     }
 
-    /**
-     * Redirect to a different URL
-     *
-     * @param string $url - URL to redirect to (relative to BASE_URL)
-     */
+    
     protected function redirect($url)
     {
         header("Location: " . BASE_URL . $url);
         exit();
     }
 
-    /**
-     * Check if user is authenticated
-     *
-     * @return bool
-     */
+    
     protected function isAuthenticated()
     {
         return isset($_SESSION['user_id']);
     }
 
-    /**
-     * Get current user ID from session
-     *
-     * @return int|null
-     */
+   
     protected function getUserId()
     {
         return $_SESSION['user_id'] ?? null;
@@ -99,13 +67,7 @@ class Controller
         }
     }
 
-    /**
-     * Validate input data against rules
-     *
-     * @param array $data - Data to validate
-     * @param array $rules - Validation rules
-     * @return array - Array of errors (empty if valid)
-     */
+    
     protected function validate($data, $rules)
     {
         $errors = [];
@@ -137,12 +99,7 @@ class Controller
         return $errors;
     }
 
-    /**
-     * Sanitize input data - remove tags and escape special characters
-     *
-     * @param mixed $data - Data to sanitize
-     * @return mixed - Sanitized data
-     */
+    
     protected function sanitize($data)
     {
         if (is_array($data)) {
@@ -151,12 +108,7 @@ class Controller
         return htmlspecialchars(strip_tags(trim($data)), ENT_QUOTES, 'UTF-8');
     }
 
-    /**
-     * Return JSON response
-     *
-     * @param array $data - Data to encode as JSON
-     * @param int $statusCode - HTTP status code
-     */
+    
     protected function json($data, $statusCode = 200)
     {
         http_response_code($statusCode);
@@ -165,11 +117,7 @@ class Controller
         exit();
     }
 
-    /**
-     * Generate a CSRF token and store in session
-     *
-     * @return string - CSRF token
-     */
+    
     protected function generateCSRFToken()
     {
         if (!isset($_SESSION['csrf_token']) || empty($_SESSION['csrf_token'])) {
@@ -178,12 +126,7 @@ class Controller
         return $_SESSION['csrf_token'];
     }
 
-    /**
-     * Validate CSRF token from form submission
-     *
-     * @param string $token - Token to validate
-     * @return bool - True if valid, false otherwise
-     */
+    
     protected function validateCSRFToken($token)
     {
         if (!isset($_SESSION['csrf_token'])) {

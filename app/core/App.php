@@ -1,21 +1,14 @@
 <?php
 
 namespace core;
-/**
- * App Router/Front Controller
- *
- * Parses URL requests and routes them to appropriate controllers and method
- * Supports URL structure: /ControllerName/methodName/param1/param2
- */
+
 class App
 {
     protected $controller = 'DashboardController';
     protected $method = 'index';
     protected $params = [];
 
-    /**
-     * Constructor - Parse URL and dispatch to controllers
-     */
+    
     public function __construct()
     {
         $url = $this->parseUrl();
@@ -43,13 +36,7 @@ class App
         call_user_func_array([$this->controller, $this->method], $this->params);
     }
 
-    /**
-     * Parse URL from GET parameter
-     *
-     * Expected format: /ControllerName/methodName/param1/param2
-     *
-     * @return array - URL segments
-     */
+    
     private function parseUrl()
     {
         return isset($_GET['url']) ? explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL)) : [];

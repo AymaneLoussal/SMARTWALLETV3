@@ -2,19 +2,12 @@
 
 namespace core;
 
-/**
- * Model Base Class
- *
- * Provides common database functionality for all models
- */
+
 class Model
 {
     protected $db;
     protected $table;
 
-    /**
-     * Constructor - Initialize database connection
-     */
     public function __construct()
     {
         try {
@@ -24,11 +17,7 @@ class Model
         }
     }
 
-    /**
-     * Get all records from table
-     *
-     * @return array - All records
-     */
+   
     public function all()
     {
         try {
@@ -39,12 +28,7 @@ class Model
         }
     }
 
-    /**
-     * Find record by ID
-     *
-     * @param int $id - Record ID
-     * @return array|null - Record data or null
-     */
+    
     public function find($id)
     {
         try {
@@ -57,13 +41,6 @@ class Model
     }
 
 
-    /**
-     * Execute custom query
-     *
-     * @param string $sql - SQL query
-     * @param array $params - Query parameters
-     * @return \PDOStatement
-     */
     protected function query($sql, $params = [])
     {
         try {
