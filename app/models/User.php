@@ -20,12 +20,7 @@ class User extends \core\Model
         parent::__construct();
     }
 
-    /**
-     * Find user by email
-     *
-     * @param string $email
-     * @return array|null
-     */
+    
     public function findByEmail(string $email): ?array
     {
         try {
@@ -38,14 +33,7 @@ class User extends \core\Model
         }
     }
 
-    /**
-     * Register a new user
-     *
-     * @param string $full_name
-     * @param string $email
-     * @param string $password
-     * @return bool
-     */
+   
     public function register(string $full_name, string $email, string $password): bool
     {
         // Basic validation
@@ -73,13 +61,7 @@ class User extends \core\Model
         }
     }
 
-    /**
-     * Authenticate user
-     *
-     * @param string $email
-     * @param string $password
-     * @return bool
-     */
+   
     public function login(string $email, string $password): bool
     {
         $user = $this->findByEmail($email);
@@ -100,12 +82,7 @@ class User extends \core\Model
         return true;
     }
 
-    /**
-     * Find user by ID
-     *
-     * @param int $id
-     * @return array|null
-     */
+    
     public function findById(int $id): ?array
     {
         try {
@@ -118,22 +95,13 @@ class User extends \core\Model
         }
     }
 
-    /**
-     * Check if email exists
-     *
-     * @param string $email
-     * @return bool
-     */
+   
     public function emailExists(string $email): bool
     {
         return $this->findByEmail($email) !== null;
     }
 
-    /**
-     * Get user id after login
-     *
-     * @return int|null
-     */
+    
     public function getUserId(): ?int
     {
         return $this->id ?? null;
