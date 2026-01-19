@@ -2,22 +2,13 @@
 
 use core\Controller;
 
-/**
- * Income Controller
- *
- * Handles all income-related requests
- * Manages income CRUD operations and views
- *
- * @package App\Controllers
- */
+
 class IncomeController extends Controller {
 
     private $incomeModel;
     private $categoryModel;
 
-    /**
-     * Constructor
-     */
+    
     public function __construct() {
         // Only call parent constructor if it exists
         if (method_exists(get_parent_class($this), '__construct')) {
@@ -46,8 +37,18 @@ class IncomeController extends Controller {
             // Get all incomes for user
             $incomes = $this->incomeModel->getAll($userId);
 
-            // Get categories for filter
-            $categories = $this->categoryModel->getAllByUser($userId);
+            // Get only INCOME categories for display
+            $allCategories = $this->categoryModel->getAllByUser($userId);
+            $incomeList = array_keys(\Category::getIncomeCategories());
+            $categories = [];
+
+            if (!empty($allCategories)) {
+                foreach ($allCategories as $cat) {
+                    if (in_array($cat['name'], $incomeList)) {
+                        $categories[] = $cat;
+                    }
+                }
+            }
 
             // Calculate statistics
             $totalIncome = $this->incomeModel->getTotal($userId);
@@ -86,8 +87,18 @@ class IncomeController extends Controller {
         try {
             $userId = $_SESSION['user_id'];
 
-            // Get categories for dropdown
-            $categories = $this->categoryModel->getAllByUser($userId);
+            // Get only INCOME categories for dropdown
+            $allCategories = $this->categoryModel->getAllByUser($userId);
+            $incomeList = array_keys(\Category::getIncomeCategories());
+            $categories = [];
+
+            if (!empty($allCategories)) {
+                foreach ($allCategories as $cat) {
+                    if (in_array($cat['name'], $incomeList)) {
+                        $categories[] = $cat;
+                    }
+                }
+            }
 
             $data = [
                 'page_title' => 'Add Income',
@@ -165,13 +176,13 @@ class IncomeController extends Controller {
             $userId = $_SESSION['user_id'];
 
             // Create income
-            $this->incomeModel->create(
-                $userId,
-                (float)$amount,
-                $categoryId ? (int)$categoryId : null,
-                $description ? htmlspecialchars($description, ENT_QUOTES, 'UTF-8') : null,
-                $date
-            );
+           $this->incomeModel->createIncome(
+    $userId,
+    (float)$amount,
+    $categoryId ? (int)$categoryId : null,
+    $description ? htmlspecialchars($description, ENT_QUOTES, 'UTF-8') : null,
+    $date
+);
 
             // Redirect to income list with success message
             $_SESSION['success'] = 'Income added successfully!';

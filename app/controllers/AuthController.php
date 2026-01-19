@@ -2,28 +2,17 @@
 
 use core\Controller;
 
-/**
- * AuthController
- *
- * Handles user authentication (login, registration, logout)
- * Manages session creation and destruction
- */
+
 class AuthController extends Controller {
 
     private $userModel;
 
-    /**
-     * Constructor - Initialize User model
-     */
+   
     public function __construct() {
         $this->userModel = $this->model('User');
     }
 
-    /**
-     * Display registration form
-     *
-     * GET /auth/register
-     */
+    
     public function register() {
         // Redirect if already authenticated
         if ($this->isAuthenticated()) {
@@ -45,11 +34,7 @@ class AuthController extends Controller {
         $this->view('auth/register', $data);
     }
 
-    /**
-     * Process user registration
-     *
-     * POST /auth/handleRegister
-     */
+    
     public function handleRegister() {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->redirect('/auth/register');
@@ -110,11 +95,7 @@ class AuthController extends Controller {
         }
     }
 
-    /**
-     * Display login form
-     *
-     * GET /auth/login
-     */
+    
     public function login() {
         // Redirect if already authenticated
         if ($this->isAuthenticated()) {
@@ -136,11 +117,7 @@ class AuthController extends Controller {
         $this->view('auth/login', $data);
     }
 
-    /**
-     * Process user login
-     *
-     * POST /auth/handleLogin
-     */
+   
     public function handleLogin() {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->redirect('/auth/login');
@@ -195,11 +172,6 @@ class AuthController extends Controller {
         }
     }
 
-    /**
-     * Logout user and destroy session
-     *
-     * GET /auth/logout
-     */
     public function logout() {
         // Destroy session securely
         $_SESSION = array();
@@ -223,11 +195,7 @@ class AuthController extends Controller {
         $this->redirect('/auth/login');
     }
 
-    /**
-     * Generate CSRF token
-     *
-     * @return string CSRF token
-     */
+   
     protected function generateCSRFToken() {
         if (empty($_SESSION['csrf_token'])) {
             $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -235,12 +203,7 @@ class AuthController extends Controller {
         return $_SESSION['csrf_token'];
     }
 
-    /**
-     * Validate CSRF token
-     *
-     * @param string $token Token to validate
-     * @return bool True if token is valid
-     */
+    
     protected function validateCSRFToken($token) {
         return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
     }

@@ -2,17 +2,10 @@
 
 use core\Controller;
 
-/**
- * Dashboard Controller
- *
- * Handles dashboard/home page functionality
- */
+
 class DashboardController extends Controller {
 
-    /**
-     * Display main dashboard
-     * GET /dashboard/index
-     */
+    
     public function index() {
         // Redirect to login if not authenticated
         if (!$this->isAuthenticated()) {

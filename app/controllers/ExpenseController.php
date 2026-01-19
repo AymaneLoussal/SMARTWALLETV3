@@ -2,34 +2,20 @@
 
 use core\Controller;
 
-/**
- * Expense Controller
- *
- * Handles all expense-related requests
- * Manages expense CRUD operations and views
- *
- * @package App\Controllers
- */
+
 class ExpenseController extends Controller {
 
     private $expenseModel;
     private $categoryModel;
 
-    /**
-     * Constructor
-     */
+   
     public function __construct() {
-//        parent::__construct();
 
-        // Load models using parent class method
         $this->expenseModel = $this->model('Expense');
         $this->categoryModel = $this->model('Category');
     }
 
-    /**
-     * Display list of all expenses for current user
-     * GET /expense/index
-     */
+    
     public function index() {
         // Verify user is logged in
         if (!isset($_SESSION['user_id'])) {
@@ -43,8 +29,18 @@ class ExpenseController extends Controller {
             // Get all expenses for user
             $expenses = $this->expenseModel->getAll($userId);
 
-            // Get categories for filter
-            $categories = $this->categoryModel->getAllByUser($userId);
+            // Get only EXPENSE categories for display
+            $allCategories = $this->categoryModel->getAllByUser($userId);
+            $expenseList = array_keys(\Category::getExpenseCategories());
+            $categories = [];
+
+            if (!empty($allCategories)) {
+                foreach ($allCategories as $cat) {
+                    if (in_array($cat['name'], $expenseList)) {
+                        $categories[] = $cat;
+                    }
+                }
+            }
 
             // Calculate statistics
             $totalExpenses = $this->expenseModel->getTotal($userId);
@@ -83,8 +79,18 @@ class ExpenseController extends Controller {
         try {
             $userId = $_SESSION['user_id'];
 
-            // Get categories for dropdown
-            $categories = $this->categoryModel->getAllByUser($userId);
+            // Get only EXPENSE categories for dropdown
+            $allCategories = $this->categoryModel->getAllByUser($userId);
+            $expenseList = array_keys(\Category::getExpenseCategories());
+            $categories = [];
+
+            if (!empty($allCategories)) {
+                foreach ($allCategories as $cat) {
+                    if (in_array($cat['name'], $expenseList)) {
+                        $categories[] = $cat;
+                    }
+                }
+            }
 
             $data = [
                 'page_title' => 'Add Expense',
@@ -103,10 +109,7 @@ class ExpenseController extends Controller {
         }
     }
 
-    /**
-     * Store new expense in database
-     * POST /expense/store
-     */
+    
     public function store() {
         // Verify user is logged in
         if (!isset($_SESSION['user_id'])) {
@@ -162,13 +165,14 @@ class ExpenseController extends Controller {
             $userId = $_SESSION['user_id'];
 
             // Create expense
-            $this->expenseModel->create(
-                $userId,
-                (float)$amount,
-                $categoryId ? (int)$categoryId : null,
-                $description ? htmlspecialchars($description, ENT_QUOTES, 'UTF-8') : null,
-                $date
-            );
+            // Create expense
+$this->expenseModel->createExpense(
+    $userId,
+    (float)$amount,
+    $categoryId ? (int)$categoryId : null,
+    $description ? htmlspecialchars($description, ENT_QUOTES, 'UTF-8') : null,
+    $date
+);
 
             // Redirect to expense list with success message
             $_SESSION['success'] = 'Expense added successfully!';
