@@ -51,23 +51,23 @@
 
                 <!-- Category Field -->
                 <div class="form-group">
-                    <label for="category_id" class="form-label">Category <span style="color: #999;">(Optional)</span></label>
-                    <select id="category_id"
-                            name="category_id"
+                    <label for="category" class="form-label">Category <span style="color: #999;">(Optional)</span></label>
+                    <select id="category"
+                            name="category"
                             class="form-control">
                         <option value="">-- Select a category --</option>
                         <?php if (!empty($categories)): ?>
                             <?php foreach ($categories as $category): ?>
-                                <option value="<?php echo $category['id']; ?>"
-                                        <?php echo (isset($income['category_id']) && $income['category_id'] == $category['id']) ? 'selected' : ''; ?>>
+                                <option value="<?php echo htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        <?php echo (isset($income['category']) && $income['category'] == $category['name']) ? 'selected' : ''; ?>>
                                     <?php echo htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8'); ?>
                                 </option>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </select>
-                    <?php if (isset($errors['category_id'])): ?>
+                    <?php if (isset($errors['category'])): ?>
                         <div class="form-error">
-                            <?php echo htmlspecialchars($errors['category_id'], ENT_QUOTES, 'UTF-8'); ?>
+                            <?php echo htmlspecialchars($errors['category'], ENT_QUOTES, 'UTF-8'); ?>
                         </div>
                     <?php endif; ?>
                 </div>

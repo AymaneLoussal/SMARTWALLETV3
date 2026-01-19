@@ -50,13 +50,13 @@
 
             <!-- Category Field -->
             <div class="form-group">
-                <label for="category_id" class="form-label">Category</label>
-                <select id="category_id" name="category_id" class="form-control">
+                <label for="category" class="form-label">Category</label>
+                <select id="category" name="category" class="form-control">
                     <option value="">-- Select Category --</option>
                     <?php if (isset($categories) && !empty($categories)): ?>
                         <?php foreach ($categories as $category): ?>
-                            <option value="<?php echo htmlspecialchars($category['id'], ENT_QUOTES, 'UTF-8'); ?>"
-                                <?php if (isset($expense['category_id']) && $expense['category_id'] == $category['id']) echo 'selected'; ?>>
+                            <option value="<?php echo htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8'); ?>"
+                                <?php if (isset($expense['category']) && $expense['category'] == $category['name']) echo 'selected'; ?>>
                                 <?php echo htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8'); ?>
                             </option>
                         <?php endforeach; ?>

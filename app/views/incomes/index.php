@@ -102,15 +102,8 @@
                                     </td>
                                     <td style="padding: 1rem;">
                                         <?php
-                                            $categoryName = 'Uncategorized';
-                                            if ($income['category_id'] && !empty($categories)) {
-                                                foreach ($categories as $cat) {
-                                                    if ($cat['id'] == $income['category_id']) {
-                                                        $categoryName = htmlspecialchars($cat['name'], ENT_QUOTES, 'UTF-8');
-                                                        break;
-                                                    }
-                                                }
-                                            }
+                                            // Display category directly from income record (it's stored as a string)
+                                            $categoryName = htmlspecialchars($income['category'] ?? 'Uncategorized', ENT_QUOTES, 'UTF-8');
                                             echo $categoryName;
                                         ?>
                                     </td>

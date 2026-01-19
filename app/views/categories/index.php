@@ -42,6 +42,17 @@
         </div>
     <?php endif; ?>
 
+    <!-- Info Message -->
+    <?php if (isset($info)): ?>
+        <div class="alert alert-info" style="background: #e3f2fd; color: #1976d2; border: 1px solid #90caf9;">
+            <?php echo htmlspecialchars($info, ENT_QUOTES, 'UTF-8'); ?>
+            <br><br>
+            <a href="<?php echo BASE_URL; ?>/populate-categories.php" style="color: #1976d2; font-weight: bold; text-decoration: underline;">
+                Click here to populate categories
+            </a>
+        </div>
+    <?php endif; ?>
+
     <!-- Create Category Form (Hidden by default) -->
     <div id="createForm" class="card" style="display: none; margin-bottom: 2rem;">
         <div class="card-header">
